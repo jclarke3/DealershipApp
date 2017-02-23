@@ -1,0 +1,59 @@
+﻿@model DealershipApp.Web.Models.VehicleList
+
+@{
+    ViewBag.Title = "SearchVehicles";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+<style>
+    #map {
+        width: 100%;
+        height: 400px;
+        background-color: grey;
+    }
+</style>
+
+<h2>Vehicle Search Results</h2>
+<label>Matches: @Model.list.Count()</label>
+@foreach(var v in Model.list)
+{    <div style="outline:solid; margin:13px; text-align:center; width:70%">
+        <label>@v.Year @v.Make @v.Model</label>
+        <label>Color: @v.Color </label> <br />
+        <label>Condition: @v.Condition </label> <br />
+        <label>Price: @String.Format("{0:C}", @v.Price); </label>
+        <label>Mileage: @v.Mileage </label>
+
+    </div>
+}
+@Html.ActionLink("Search Again", "Index")
+
+<div id="map" style="width:70%; text-align:center;"></div>
+
+<script>
+    function initMap() {
+        var mapDiv = document.getElementById('map');
+        var map = new google.maps.Map(mapDiv, {
+            center: { lat: 38.958631, lng: -77.357003 },
+            zoom: 8
+        });
+        var g = @Model.gs;
+        console.log(g);
+        map.data.addGeoJson(g);
+        var infowindow = new google.maps.InfoWindow();
+
+        // When the user clicks, open an infowindow
+        map.data.addListener('click', function(event) {
+            var myHTML =  "Dealership: " + event.feature.getProperty("Name") + 
+            "<br />Address: " + event.feature.getProperty("Address") + " " +  event.feature.getProperty("City")
+                + ", " + event.feature.getProperty("State") + " " +  event.feature.getProperty("Zip") +
+                "<br />Phone: " +  event.feature.getProperty("Phone");
+            infowindow.setContent("<div style='width:150px; text-align: center;'>"+myHTML+"</div>");
+            infowindow.setPosition(event.feature.getGeometry().get());
+            infowindow.setOptions({pixelOffset: new google.maps.Size(0,-30)});
+            infowindow.open(map);
+        });         
+    }
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaJrQSQHc7jVJbIJPcR2cPMBfRYfBEdck&callback=initMap">
+</script>

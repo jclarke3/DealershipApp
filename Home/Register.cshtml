@@ -1,0 +1,170 @@
+﻿@model DealershipApp.Web.Models.DealerModel
+
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+
+<h2>Register Dealership</h2>
+
+@using (Html.BeginForm("NewDealership", "Home", FormMethod.Post, new { @class = "form-signin", role = "form"}))
+{
+    
+    <div class="form-horizontal" style="width:70%" align="center">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control", @id = "username" } })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control", @type = "password", @id = "password" } })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control", @id = "email" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "name" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Address, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @id = "address" } })
+                @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.City, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.City, new { htmlAttributes = new { @class = "form-control", @id = "city" } })
+                @Html.ValidationMessageFor(model => model.City, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.State, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.State, new { htmlAttributes = new { @class = "form-control", @id = "state" } })
+                @Html.ValidationMessageFor(model => model.State, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Zip, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Zip, new { htmlAttributes = new { @class = "form-control", id = "zip" } })
+                @Html.ValidationMessageFor(model => model.Zip, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Phone, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Phone, new { htmlAttributes = new { @class = "form-control", @id = "phone" } })
+                @Html.ValidationMessageFor(model => model.Phone, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        @*@Html.Hidden("Latitude", Model.Latitude)
+            @Html.Hidden("Longitude", Model.Longitude)
+            @Html.HiddenFor(model => model.Latitude, new { @id = "Latitude"} )
+            @Html.HiddenFor(model => model.Longitude, new { @id = "Longitude" })*@
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">                
+                <input type="submit" class="btn btn-info" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to Home", "Index")
+</div>
+
+@*<script>
+    function reg() {
+        //var lat = '';
+        //var lng = '';
+        var un = document.getElementById("username").value;
+        var pw = document.getElementById("password").value;
+        var name = document.getElementById("name").value;
+        var address = document.getElementById("address").value;
+        var city = document.getElementById("city").value;
+        var state = document.getElementById("state").value;
+        var email = document.getElementById("email").value;
+        var phone = document.getElementById("phone").value;
+        var zip = document.getElementById('zip').value;
+
+        var geocoder = new google.maps.Geocoder();
+        //console.log("zip " + zip);
+        //if(zip){
+            geocoder.geocode( { 'address': zip}, function(results, status) {
+                if (status == google.maps.GeocoderStatus.OK) {
+                    var lat = results[0].geometry.location.lat();
+                    var lng = results[0].geometry.location.lng();
+                    console.log("lat lon" + lat + " " + lng);
+                    //var a = document.getElementById("Latitude");
+                    //a.value = lat;
+                    //var b = document.getElementById("Longitude");
+                    //b.value = lng;
+                    //console.log(document.getElementById("Latitude").value);
+
+                }
+                else {
+                    alert("Geocode was not successful for the following reason: " + status);
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                dataType: 'json',
+                url: '@Url.Action("NewDealership")',
+                data:{
+                    Username: un,
+                    Password: pw,
+                    Email: email,
+                    Latitude: lat,
+                    Longitude: lng,
+                    Address: address,
+                    City: city,
+                    State: state,
+                    Zip: zip,
+                    Phone: phone,
+                    Name: name
+                },
+                success: function (data) {
+                    alert("Registration Succesful");
+                    window.location.replace('@Url.Action("Login")');
+                },
+                error: function (xhr, ajaxOptions, error, data) {
+                    console.log("failure " + data);
+                    alert(xhr.status);
+                }
+            });
+        //}
+    }
+</script>
+
+<script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaJrQSQHc7jVJbIJPcR2cPMBfRYfBEdck">
+</script>*@

@@ -1,0 +1,62 @@
+﻿@model DealershipApp.Web.Models.VehicleList
+
+@{
+    ViewBag.Title = "Info";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+<div class="container" style="border-left:solid;border-right:solid;border-bottom:thin; padding-bottom:20px;">
+    
+    <h1 align="center" style="font-size:42px">Lot Info</h1>
+    <hr />
+    <div style="float:right; width:35%;  margin-right:30px">
+        <div class="row">
+            <label style="font-size:36px">@Model.Name</label>
+        </div>
+        <div class="row">
+            <label>@Model.Address</label>
+        </div>       
+        <div class="row">
+           <label> @Model.City @Model.State @Model.Zip</label>
+
+        </div>
+        <div class="row">
+            <label>@Model.Phone</label>
+        </div>        
+    </div>
+    <div style="width:40%; float:left; padding-top:15px; padding-left:15px">
+        <label>Cars on Lot: @Model.list.Count()</label>
+        <table class="table table-striped">
+            <tr>
+                <th>Year</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Color</th>
+                <th>Condition</th>
+                <th>Price</th>
+                <th>Mileage</th>
+                <th>Remove</th>
+            </tr>
+
+            @foreach (var v in Model.list)
+            {
+
+                <tr on>
+                    <td>@v.Year</td>
+                    <td>@v.Make</td>
+                    <td>@v.Model</td>
+                    <td>@v.Color</td>
+                    <td>@v.Condition</td>
+                    <td>@String.Format("{0:C}", @v.Price) </td>
+                    <td>@v.Mileage</td>
+                    <td>@Html.ActionLink(" ", "Remove", @v, new { @class= "glyphicon glyphicon-remove-circle", @style="width:40px; height:10px; text-align:center"})</td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+<div class="row">
+    <footer>
+        <hr />
+        <p>&copy; 2016 - Revature - J.W. Auto Search</p>
+    </footer>
+</div>   

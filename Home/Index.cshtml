@@ -1,0 +1,183 @@
+﻿@model DealershipApp.Web.Models.VehicleModel
+@{
+    
+    ViewBag.Title = "Home Page";
+
+}
+
+<div class="container">
+    <div class="row">
+        <div class=" col-lg-6 col-lg-offset-4">
+            <img src="~/img/corvette.jpg" />
+        </div>        
+    </div>
+    <div class="row">
+        <h2 align="center">Find New and Preowned Cars Near You</h2>
+        @*@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <p> Make: @Html.TextBox(v => v.Make)</p>
+                @Html.ActionLink("Search for vehicles", "Search");
+            }*@
+        @*@using (Html.BeginForm("SearchVehicles", "Home", FormMethod.Post, new { onsubmit = "getLatLon()"}))*@
+        <div style="background-color:#7746F2; padding:10px; border-radius:25px;">
+            @using (Html.BeginForm("SearchVehicles", "Home", FormMethod.Post, new { @id="myForm"}))
+            {
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="Make">Make: </label>
+                        @Html.TextBoxFor(x => x.Make, new { id = "Make", @class="form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Model">Model: </label>
+                        @Html.TextBoxFor(x => x.Model, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Year">Year: </label>
+                        @Html.TextBoxFor(x => x.Year, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Color">Color: </label>
+                        @Html.TextBoxFor(x => x.Color, new { id = "Color", @class="form-control" })
+                    </div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="Min">Price Min: </label>
+                        @Html.TextBoxFor(x => x.PriceMin, new { @class = "form-control" })
+                    </div>
+                    <div class="col-md-3">
+                        <label for="Max">Price Max: </label>
+                        @Html.TextBoxFor(x => x.PriceMax, new { @id = "max", @class="form-control" })
+                    </div>
+
+                    <div class="col-md-3">
+                        <label for="Condition"></label>
+                        @Html.DropDownListFor(x => x.Condition, new[] { new SelectListItem() {Text="New", Value="New" },
+                        new SelectListItem() {Text="Used", Value="Used" } }, "Choose Condition", new { @class ="form-control"})
+                    </div>
+                    <div class="col-md-1">
+                        <label>Within </label>
+                        @Html.TextBoxFor(x => x.distance, new { @class = "form-control", @style = "width:70px" })
+                        
+                    </div>
+                    <div class="col-md-1">
+                        <label> Miles of : </label>
+                        @Html.TextBoxFor(x => x.Zip, new { @id = "zip", @class = "form-control", @placeholder = "Zip", @style = "width:70px" })
+                    </div>
+
+                </div>
+                <br />
+                <div class="row">
+                    
+                    
+                </div>
+                <div class="row" align="center">
+                    <input type="submit" value="Search" id="search"class="btn btn-warning" style="width:10%"/>
+                </div>
+            }
+        </div>
+    </div>
+
+</div>
+<div class="row">
+    <footer>
+        <hr />
+        <p>&copy; 2016 - Revature - J.W. Auto Search</p>
+    </footer>
+</div>   
+<script>
+    document.getElementById("max").defaultValue = 20000;
+    $(function () {
+        var availableMakes = [
+          "Acura",
+          "Aston Martin",
+          "Audi",
+          "Bentley",
+          "BMW",
+          "Bugatti",
+          "Buick",
+          "Cadillac",
+          "Chevrolet",
+          "Chrylser",
+          "Dodge",
+          "Fiat",
+          "Ford",
+          "GM",
+          "GMC",
+          "Honda",
+          "Hyundai",
+          "Infiniti",
+          "Jaguar",
+          "Jeep",
+          "Kia",
+          "Lexus",
+          "Mazda",
+          "Mercedes-Benz",
+          "Nissan",
+          "Porsche",
+          "Rolls Royce",
+          "Saab",
+          "Subaru",
+          "Suzuki",
+          "Tesla",
+          "Toyota",
+          "Volkwagen",
+          "Volvo"
+        ];
+        var availableColors = [
+          "Red",
+          "Orange",
+          "Yellow",
+          "Green",
+          "Blue",
+          "Purple",
+          "Magenta",
+          "Pink",
+          "Brown",
+          "White",
+          "Gray",
+          "Black",
+          "Silver",
+          "Gold"
+        ];
+        $("#Make").autocomplete({
+            source: availableMakes
+        });
+        $("#Color").autocomplete({
+            source: availableColors
+        });
+    });
+</script>
+<script>
+
+</script>
+@*
+    <script>
+        $("search").click(function (e) {
+            e.preventDefault();
+                console.log("umm wtf");
+                var lat = '';
+                var lng = '';
+                var geocoder = new google.maps.Geocoder();
+                var zip = document.getElementById('zip').value;
+                //if(zip){
+                geocoder.geocode({ 'address': zip }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) {
+                        lat = results[0].geometry.location.lat();
+                        lng = results[0].geometry.location.lng();
+                        console.log(lat + " " + lng);
+                        document.getElementById('Latitude').value = lat;
+                        document.getElementById('Longitude').value = lng;
+                    }
+                    else {
+                        alert("Geocode was not successful for the following reason: " + status);
+                    }
+                });
+                $('#myForm').submit();
+        });
+    </script>
+
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCaJrQSQHc7jVJbIJPcR2cPMBfRYfBEdck">
+    </script>*@

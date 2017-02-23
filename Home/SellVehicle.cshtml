@@ -1,0 +1,163 @@
+﻿@model DealershipApp.Web.Models.VehicleModel
+
+@{
+    ViewBag.Title = "SearchVehicles";
+    Layout = "~/Views/shared/_Layout.cshtml";
+}
+
+
+<h2>Sell Your Vehicle</h2>
+
+@using (Html.BeginForm("Sell", "Home", FormMethod.Post, new { @class = "form-signin", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Make, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Make, new { htmlAttributes = new { @class = "form-control", @id="Make" } })
+                @Html.ValidationMessageFor(model => model.Make, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Model, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Model, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Model, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Year, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Year, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Year, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Color, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Color, new { htmlAttributes = new { @class = "form-control", @id="Color" } })
+                @Html.ValidationMessageFor(model => model.Color, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Condition, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.DropDownListFor(x => x.Condition, new[] { new SelectListItem() {Text="New", Value="New" },
+         new SelectListItem() {Text="Used", Value="Used" } }, "Choose Condition", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Condition, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Type, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-4">
+                    @Html.DropDownListFor(x => x.Type, new[] { new SelectListItem() {Text="Sedan", Value="Sedan" },
+         new SelectListItem() {Text="Coupe", Value="Coupe" }, new SelectListItem() {Text="Truck", Value="Truck" },
+         new SelectListItem() {Text="Hatchback", Value="Hathback" }, new SelectListItem() {Text="Motorcycle", Value="Motorcycle" }
+           }, "Choose Type", new { @class="form-control"})
+                    @Html.ValidationMessageFor(model => model.Type, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Mileage, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Mileage, new { htmlAttributes = new { @class = "form-control", id = "zip" } })
+                @Html.ValidationMessageFor(model => model.Mileage, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="SELL" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+<div class="row">
+    <footer>
+        <hr />
+        <p>&copy; 2016 - Revature - J.W. Auto Search</p>
+    </footer>
+</div>   
+
+<script>
+    $(function () {
+        var availableMakes = [
+          "Acura",
+          "Aston Martin",
+          "Audi",
+          "Bentley",
+          "BMW",
+          "Bugatti",
+          "Buick",
+          "Cadillac",
+          "Chevrolet",
+          "Chrylser",
+          "Dodge",
+          "Fiat",
+          "Ford",
+          "GM",
+          "GMC",
+          "Honda",
+          "Hyundai",
+          "Infiniti",
+          "Jaguar",
+          "Jeep",
+          "Kia",
+          "Lexus",
+          "Mazda",
+          "Mercedes-Benz",
+          "Nissan",
+          "Porsche",
+          "Rolls Royce",
+          "Saab",
+          "Subaru",
+          "Suzuki",
+          "Tesla",
+          "Toyota",
+          "Volkwagen",
+          "Volvo"
+        ];
+        var availableColors = [
+          "Red",
+          "Orange",
+          "Yellow",
+          "Green",
+          "Blue",
+          "Purple",
+          "Magenta",
+          "Pink",
+          "Brown",
+          "White",
+          "Gray",
+          "Black",
+          "Silver",
+          "Gold"
+        ];
+        $("#Make").autocomplete({
+            source: availableMakes
+        });
+        $("#Color").autocomplete({
+            source: availableColors
+        });
+    });
+</script>

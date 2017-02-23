@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    @if (Session["id"] == null)
+    {
+        Session["id"] = 0;
+    }
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>J.W. Auto Search</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" />
+    
+    
+    @*@Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")*@
+
+</head>
+<body style="padding-top:60px">
+    <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header" style="padding:35px 50px;">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4><span class="glyphicon glyphicon-lock"></span> Login</h4>
+                </div>
+                <div class="modal-body" style="padding:40px 50px;">
+                    <form class="login-form">
+                        <div style="color:red; font-size:16px" align="center" id="msg"></div>
+                        <div class="form-group">
+                            <label for="usrname"><span class="glyphicon glyphicon-user"></span> Username</label>
+                            <input type="text" class="form-control" id="form-username" placeholder="Enter email">
+                        </div>
+                        <div class="form-group">
+                            <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+                            <input type="password" class="form-control" id="form-password" placeholder="Enter password">
+                        </div>
+                        <button type="submit" class="btn btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Login</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-danger btn-default pull-left" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    <p>Not a member? @Html.ActionLink("Sign Up", "Register", "Home", routeValues: null, htmlAttributes: new { id = "registerLink" })</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">            
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("J.W. Auto Search", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Find", "Index", "Home")</li>                    
+                    <li>@Html.ActionLink("Sell", "SellVehicle", "Home")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+
+ 
+    <div class="container body-content">
+        
+        @RenderBody()
+        <hr />  
+        @*<div class="row">
+            <footer>
+                <p>&copy; 2016 - Revature - J.W. Auto Search</p>
+            </footer>
+        </div>*@      
+    </div>
+
+
+
+</body>
+
+</html>
+
+<script>
+   $('.login-form').submit(function (event) {
+       event.preventDefault();
+       var name = document.getElementById("form-username").value;
+       var pass = document.getElementById("form-password").value;
+       var passing = name + ',' + pass;
+       //console.log("inside the function");
+       $.ajax({
+           type: 'POST',
+           url: '@Url.Action("Login2")',
+           dataType: 'json',
+           data: {
+               Username: name,
+               Password: pass
+           }, success: function (data) {
+               console.log(data);
+               @*if (data[0].ret == "true") {
+                   window.location.replace('@Url.Action("Home")');
+               }*@
+               //window.location.replace('@Url.Action("Index")');
+               @*else {
+                   window.location.replace('@Url.Action("LoginFailure")');
+           }*@
+               if (data.AccountId == 1) {
+                   window.location.replace('@Url.Action("Info")');
+               }
+               else {
+                   document.getElementById("msg").innerHTML = "Login Failed";
+                   //window.alert("Login failed");
+               }
+
+           },
+           error: function (xhr, ajaxOptions, error,data) {
+               //window.location.replace('@Url.Action("Home")');
+           console.log("failure");
+           console.log(data);
+           //alert(xhr.status);
+           //alert('Error: ' + xhr.responseJSON);
+       }
+   });
+   });
+
+</script>
